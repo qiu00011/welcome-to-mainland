@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>麗娟姐姐生日快樂 🎂</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: white;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .main-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 3s ease infinite, bounce 2s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255,255,255,0.3);
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.2));
+        }
+        
+        .subtitle {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 2s ease 1s forwards;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        
+        .wishes-container {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 3rem;
+            margin: 2rem 0;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            opacity: 0;
+            animation: slideInUp 2.5s ease 1.5s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wishes-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 300% 300%;
+            border-radius: 32px;
+            z-index: -1;
+            animation: gradient 3s ease infinite;
+            opacity: 0.5;
+        }
+        
+        .wish-text {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: rgba(255,255,255,0.95);
+        }
+        
+        .highlight {
+            color: #ffd93d;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255,217,61,0.5);
+        }
+        
+        .wish-section {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .birthday-cake {
+            font-size: 5rem;
+            animation: spin 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate;
+            margin: 2rem 0;
+            display: inline-block;
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #ff6b6b;
+            font-size: 2rem;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.7;
+        }
+        
+        .star {
+            position: absolute;
+            color: #ffd93d;
+            font-size: 1.5rem;
+            animation: twinkle 2s ease-in-out infinite alternate;
+            opacity: 0.8;
+        }
+        
+        .sparkle {
+            position: absolute;
+            color: #4ecdc4;
+            font-size: 1rem;
+            animation: sparkle 3s ease-in-out infinite;
+            opacity: 0.6;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #ff6b6b, transparent);
+            border-radius: 50%;
+            animation: firework 2s ease-out infinite;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4);
+            animation: confetti 3s linear infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+        
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @keyframes spin {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-10deg) scale(1.1); }
+            50% { transform: rotate(0deg) scale(1.2); }
+            75% { transform: rotate(10deg) scale(1.1); }
+        }
+        
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(255,217,61,0.5)); }
+            to { filter: drop-shadow(0 0 40px rgba(255,217,61,0.8)); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(90deg); }
+            50% { transform: translateY(-40px) rotate(180deg); }
+            75% { transform: translateY(-20px) rotate(270deg); }
+        }
+        
+        @keyframes twinkle {
+            from { transform: scale(1) rotate(0deg); opacity: 0.8; }
+            to { transform: scale(1.5) rotate(180deg); opacity: 0.3; }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1) rotate(180deg); opacity: 1; }
+        }
+        
+        @keyframes firework {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1) rotate(180deg); opacity: 0.7; }
+            100% { transform: scale(2) rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes confetti {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        .footer {
+            margin-top: 3rem;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeInUp 3s ease 2s forwards;
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .music-control {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        .music-control:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        
+        .music-control.playing {
+            background: rgba(255,217,61,0.3);
+            border-color: rgba(255,217,61,0.5);
+            animation: pulse 1s infinite, rotate 8s linear infinite;
+        }
+        
+        .music-control.paused {
+            background: rgba(255,107,107,0.3);
+            border-color: rgba(255,107,107,0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .wishes-container {
+                padding: 2rem;
+                margin: 1rem;
+                border-radius: 20px;
+            }
+            
+            .birthday-cake {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景音乐 -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="bgmusic.mp3" type="audio/mpeg">
+        <source src="bgmusic.wav" type="audio/wav">
+        <source src="bgmusic.ogg" type="audio/ogg">
+        您的浏览器不支持音频播放。
+    </audio>
+    
+    <!-- 音乐控制按钮 -->
+    <div class="music-control" id="musicControl">
+        <span id="musicIcon">🎵</span>
+    </div>
+    
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="container">
+        <h1 class="main-title">麗娟姐姐生日快樂</h1>
+        <p class="subtitle">Welcome to Mainland China! 🎉</p>
+        
+        <div class="wishes-container">
+            <div class="birthday-cake">🎂</div>
+            
+            <!-- 繁体祝福语 -->
+            <div class="wish-section">
+                <h3 style="color: #ffd93d; font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700;">繁體祝福 🌸</h3>
+                <p class="wish-text">
+                    親愛的<span class="highlight">麗娟姐姐</span>，歡迎你來大陸遊玩！<br>
+                    希望你在這裡度過美好的時光，品嘗各地美食，欣賞壯麗風景，<br>
+                    感受這片土地的人文風情和歷史底蘊。
+                </p>
+                <p class="wish-text">
+                    更巧的是你的生日也在這幾天，真是<span class="highlight">雙喜臨門</span>！<br>
+                    祝你生日快樂，青春永駐，笑容常在！<br>
+                    願你身體健康，工作順利，心想事成！<br>
+                    願歲月不老，友誼長存，每天都像今天一樣<span class="highlight">充滿驚喜和歡樂</span>！
+                </p>
+                <p class="wish-text">
+                    還要特別<span class="highlight">感謝姐姐</span>送給弟弟的精美禮物！🎁<br>
+                    你的用心和關愛讓弟弟我非常感動，<br>
+                    這份珍貴的禮物會永遠珍藏在心裡。<br>
+                    謝謝你一直以來的關心和照顧！ ❤️
+                </p>
+            </div>
+            
+            <div style="height: 2px; background: linear-gradient(90deg, transparent, #ffd93d, transparent); margin: 2rem 0; opacity: 0.6;"></div>
+            
+            <!-- 简体祝福语 -->
+            <div class="wish-section">
+                <h3 style="color: #6bcf7f; font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700;">简体祝福 🌺</h3>
+                <p class="wish-text">
+                    亲爱的<span class="highlight">丽娟姐姐</span>，欢迎你来大陆游玩！<br>
+                    希望你在这里度过美好的时光，品尝各地美食，欣赏壮丽风景。
+                </p>
+                <p class="wish-text">
+                    更巧的是你的生日也在这几天，真是双喜临门！<br>
+                    祝你生日快乐，身体健康，心想事成！<br>
+                    愿你的每一天都像今天一样<span class="highlight">充满惊喜和欢乐</span>！
+                </p>
+            </div>
+            
+            <p class="wish-text" style="margin-top: 2rem; font-size: 1.1rem;">
+                🌟 願你的大陸之旅充滿美好回憶，每個角落都有驚喜等著你發現 🌟<br>
+                🌟 愿你的大陆之旅充满美好回忆，每个角落都有惊喜等着你发现 🌟<br><br>
+                🎈 願你的新歲月帶來更多精彩，人生路上永遠有彩虹相伴 🎈<br>
+                🎈 愿你的新岁月带来更多精彩，人生路上永远有彩虹相伴 🎈<br><br>
+                🎊 兩岸一家親，姐弟情深永不變！🎊<br>
+                🎊 两岸一家亲，姐弟情深永不变！🎊
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>来自弟弟最真挚的祝福与感谢 ❤️</p>
+            <p>來自弟弟最真摯的祝福與感謝 ❤️</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">With love and best wishes</p>
+        </div>
+    </div>
+
+    <script>
+        // 創建浮動元素
+        function createFloatingElement(type, symbol) {
+            const element = document.createElement('div');
+            element.className = type;
+            element.innerHTML = symbol;
+            element.style.left = Math.random() * 100 + '%';
+            element.style.top = Math.random() * 100 + '%';
+            element.style.animationDelay = Math.random() * 3 + 's';
+            element.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            return element;
+        }
+        
+        // 生成浮動裝飾
+        function generateFloatingElements() {
+            const container = document.getElementById('floatingElements');
+            
+            // 愛心
+            for (let i = 0; i < 8; i++) {
+                container.appendChild(createFloatingElement('heart', '❤️'));
+            }
+            
+            // 星星
+            for (let i = 0; i < 12; i++) {
+                container.appendChild(createFloatingElement('star', '✨'));
+            }
+            
+            // 閃光
+            for (let i = 0; i < 15; i++) {
+                container.appendChild(createFloatingElement('sparkle', '💫'));
+            }
+            
+            // 煙火效果
+            for (let i = 0; i < 20; i++) {
+                container.appendChild(createFloatingElement('firework', ''));
+            }
+            
+            // 彩紙
+            for (let i = 0; i < 25; i++) {
+                const confetti = createFloatingElement('confetti', '');
+                confetti.style.backgroundColor = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4ecdc4', '#45b7d1'][Math.floor(Math.random() * 5)];
+                container.appendChild(confetti);
+            }
+        }
+        
+        // 頁面載入後執行
+        window.addEventListener('load', function() {
+            generateFloatingElements();
+            
+            // 添加滑鼠移動互動效果
+            document.addEventListener('mousemove', function(e) {
+                const sparkle = document.createElement('div');
+                sparkle.style.position = 'fixed';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                sparkle.style.color = '#ffd93d';
+                sparkle.style.fontSize = '12px';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.zIndex = '1000';
+                sparkle.innerHTML = '✨';
+                sparkle.style.animation = 'sparkle 1s ease-out forwards';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            });
+        });
+        
+        // 點擊生日蛋糕的特殊效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const cake = document.querySelector('.birthday-cake');
+            cake.addEventListener('click', function() {
+                // 創建爆炸效果
+                for (let i = 0; i < 30; i++) {
+                    const firework = document.createElement('div');
+                    firework.style.position = 'absolute';
+                    firework.style.left = '50%';
+                    firework.style.top = '50%';
+                    firework.style.width = '6px';
+                    firework.style.height = '6px';
+                    firework.style.backgroundColor = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4ecdc4', '#45b7d1'][Math.floor(Math.random() * 5)];
+                    firework.style.borderRadius = '50%';
+                    firework.style.pointerEvents = 'none';
+                    
+                    const angle = (Math.PI * 2 * i) / 30;
+                    const velocity = Math.random() * 100 + 50;
+                    const x = Math.cos(angle) * velocity;
+                    const y = Math.sin(angle) * velocity;
+                    
+                    firework.style.transform = `translate(-50%, -50%)`;
+                    firework.style.animation = `firework 2s ease-out forwards`;
+                    
+                    this.appendChild(firework);
+                    
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
