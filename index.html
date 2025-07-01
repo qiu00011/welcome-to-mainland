@@ -319,20 +319,18 @@
     <!-- 背景音乐 -->
     <audio id="bgMusic" loop preload="auto">
         <source src="bgmusic.mp3" type="audio/mpeg">
-        <source src="bgmusic.wav" type="audio/wav">
-        <source src="bgmusic.ogg" type="audio/ogg">
         您的浏览器不支持音频播放。
     </audio>
     
     <!-- 音乐控制按钮 -->
-    <div class="music-control" id="musicControl">
+    <div class="music-control paused" id="musicControl">
         <span id="musicIcon">🎵</span>
     </div>
     
     <div class="floating-elements" id="floatingElements"></div>
     
     <div class="container">
-        <h1 class="main-title">麗娟姐姐生日快樂</h1>
+        <h1 class="main-title">麗娟姐姐生日行列</h1>
         <p class="subtitle">Welcome to Mainland China! 🎉</p>
         
         <div class="wishes-container">
@@ -394,6 +392,54 @@
     </div>
 
     <script>
+        // 音樂控制
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('bgMusic');
+            const musicControl = document.getElementById('musicControl');
+            const musicIcon = document.getElementById('musicIcon');
+
+            // 檢查音頻加載
+            audio.addEventListener('error', function(e) {
+                console.error('音頻加載失敗:', e);
+                musicControl.style.display = 'none'; // 如果音頻加載失敗，隱藏控制按鈕
+                alert('無法加載背景音樂，請確認 bgmusic.mp3 文件是否存在並正確放置。');
+            });
+
+            // 初始化音頻
+            audio.volume = 0.5; // 設置默認音量
+            audio.muted = false;
+
+            // 音樂控制按鈕點擊事件
+            musicControl.addEventListener('click', function() {
+                if (audio.paused) {
+                    audio.play().then(() => {
+                        musicControl.classList.remove('paused');
+                        musicControl.classList.add('playing');
+                        musicIcon.innerHTML = '🎵';
+                    }).catch(e => {
+                        console.error('音頻播放失敗:', e);
+                        alert('無法播放背景音樂，請檢查瀏覽器設置或音頻文件。');
+                    });
+                } else {
+                    audio.pause();
+                    musicControl.classList.remove('playing');
+                    musicControl.classList.add('paused');
+                    musicIcon.innerHTML = '🔇';
+                }
+            });
+
+            // 頁面首次交互時嘗試播放（應對瀏覽器自動播放限制）
+            document.addEventListener('click', function attemptPlay() {
+                if (audio.paused) {
+                    audio.play().catch(e => {
+                        console.error('自動播放失敗:', e);
+                    });
+                }
+                // 移除事件監聽器以避免重複觸發
+                document.removeEventListener('click', attemptPlay);
+            });
+        });
+
         // 創建浮動元素
         function createFloatingElement(type, symbol) {
             const element = document.createElement('div');
